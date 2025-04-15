@@ -17,21 +17,23 @@ const app = express();
 const allowedOrigins = [process.env.FRONTEND_URL];
 
 // ✅ CORS Middleware
+const allowedOrigins = [process.env.FRONTEND_URL];
+
 app.use(
   cors({
     origin: function (origin, callback) {
-      console.log("🔍 Request Origin:", origin); // Log origin for debugging
-
+      // Allow requests with no origin (like from server-to-server or Netlify SSR)
       if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true); // Allow requests from allowed origins or no origin (e.g., Postman)
+        callback(null, true);
       } else {
+        console.log("❌ CORS blocked request from:", origin);
         callback(new Error("Not allowed by CORS"));
       }
     },
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
+
 
 // ✅ Middleware
 app.use(cookieParser());
