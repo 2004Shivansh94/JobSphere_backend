@@ -13,8 +13,7 @@ dotenv.config(); // Load environment variables
 
 const app = express();
 
-// ✅ Define allowed frontend origin
-const allowedOrigins = [process.env.FRONTEND_URL];
+
 
 // ✅ CORS Middleware
 const allowedOrigins = [process.env.FRONTEND_URL];
