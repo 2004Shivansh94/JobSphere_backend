@@ -20,18 +20,15 @@ const allowedOrigins = [process.env.FRONTEND_URL];
 
 app.use(
   cors({
-    origin: function (origin, callback) {
-      // Allow requests with no origin (like from server-to-server or Netlify SSR)
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        console.log("❌ CORS blocked request from:", origin);
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
+    origin: [
+      "http://localhost:5173",
+      "https://jobspheres.netlify.app" // ✅ Add your frontend URL here
+    ],
+    methods: ["GET", "POST", "DELETE", "PUT"],
     credentials: true,
   })
 );
+
 
 
 // ✅ Middleware
