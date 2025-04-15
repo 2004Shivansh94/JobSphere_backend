@@ -14,8 +14,16 @@ const app = express();
 
 app.use(
   cors({
-    origin: [process.env.FRONTEND_URL],
-    method: ["GET", "POST", "DELETE", "PUT"],
+    origin: function (origin, callback) {
+      const allowedOrigins = [process.env.FRONTEND_URL];
+
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
 );
@@ -30,6 +38,11 @@ app.use(
     tempFileDir: "/tmp/",
   })
 );
+app.use((req, res, next) => {
+  console.log("🔍 Request Origin:", req.headers.origin);
+  next();
+});
+
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/job", jobRouter);
 app.use("/api/v1/application", applicationRouter);
