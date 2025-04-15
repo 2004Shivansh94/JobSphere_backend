@@ -44,7 +44,7 @@ app.use(
   })
 );
 app.use((req, res, next) => {
-  console.log("🔍 Request Origin:", req.headers.origin);
+  console.log("🔍 Request Headers:", req.headers);
   next();
 });
 
